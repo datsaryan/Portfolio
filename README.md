@@ -20,7 +20,7 @@ React frontend ⚡ Spring Boot REST API 🌱 PostgreSQL 🐘 — all containeriz
 ### 📸 Preview
 
 <div align="center">
-<img src="FrontPage.png">
+<img src="Frontpage.png">
 <!-- 
 <sub>Replace this with a real screenshot or a screen-recording GIF of the live site — drop the image in an `assets/` or `docs/` folder and update the path above.</sub> -->
 </div>
