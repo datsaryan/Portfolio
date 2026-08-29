@@ -1,0 +1,29 @@
+# Local development only — spins up Postgres + the backend together.
+# Run the frontend separately with `npm run dev` inside portfolio-frontend/.
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: portfolio
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - portfolio_db_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./portfolio-backend
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/portfolio
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+      FRONTEND_ORIGIN: http://localhost:5173
+    ports:
+      - "8080:8080"
+
+volumes:
+  portfolio_db_data:
