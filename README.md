@@ -20,7 +20,7 @@ React frontend ⚡ Spring Boot REST API 🌱 PostgreSQL 🐘 — all containeriz
 ### 📸 Preview
 
 <div align="center">
-<img src="https://via.placeholder.com/900x480.png?text=Portfolio+Homepage+Screenshot" alt="Portfolio homepage screenshot" width="80%" />
+<img src="FrontPage" alt="Portfolio homepage screenshot" width="80%" />
 
 <sub>Replace this with a real screenshot or a screen-recording GIF of the live site — drop the image in an `assets/` or `docs/` folder and update the path above.</sub>
 </div>
