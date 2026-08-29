@@ -120,7 +120,7 @@ export default function Hero() {
       <div className="hero-content" ref={contentRef}>
         <div className="hero-text">
           <span className="hero-badge">
-            <span className="dot-live" /> open to internships
+            <span className="dot-live" /> Open to internships
           </span>
           <h1 className="hero-title">
             Aryan Singh builds <span className="accent">backend systems</span> that hold up.
