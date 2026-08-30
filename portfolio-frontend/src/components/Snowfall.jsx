@@ -48,7 +48,7 @@ export default function Snowfall() {
       flakes = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        r: Math.random() * 8 + 2, // 2px - 10px
+        r: Math.random() * 5 + 2, // 2px - 10px
         speed: Math.random() * 0.3 + 0.25, // vertical fall speed
         drift: Math.random() * 0.3 + 0.15, // amplitude of horizontal sway
         driftSpeed: Math.random() * 0.015 + 0.005, // how fast it sways
