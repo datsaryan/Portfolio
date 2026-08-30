@@ -77,8 +77,37 @@ button { font-family: inherit; }
   padding: 6.5rem 0;
   border-bottom: 1px solid var(--border);
   scroll-margin-top: 84px; /* keeps content clear of the fixed navbar when jumping via #anchor links */
+  position: relative;
+  overflow: clip;
 }
 .section:last-of-type { border-bottom: none; }
+
+/* ---- Decorative background blobs, moved by useParallax() at a slower
+   speed than the foreground content for a layered-depth scroll effect ---- */
+.section-parallax-blob {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  opacity: 0.35;
+}
+[data-theme="dark"] .section-parallax-blob { opacity: 0.22; }
+.section > .container { position: relative; z-index: 1; }
+
+.about-blob {
+  width: 420px; height: 420px;
+  top: -8%; left: -10%;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+}
+.projects-blob {
+  width: 460px; height: 460px;
+  bottom: -12%; right: -8%;
+  background: radial-gradient(circle, var(--teal) 0%, transparent 70%);
+}
+@media (max-width: 640px) {
+  .section-parallax-blob { display: none; }
+}
 
 /* ---- Section headers: code-comment style eyebrow ---- */
 .section-header { max-width: 640px; margin-bottom: 3.5rem; }
@@ -228,6 +257,12 @@ button { font-family: inherit; }
   opacity: 0.7;
 }
 .hero-content { position: relative; z-index: 1; }
+.hero-glow-parallax {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
 .hero-glow-canvas {
   position: absolute;
   inset: 0;

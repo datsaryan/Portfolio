@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import HeroGlow from './HeroGlow.jsx';
 import { useMagnetic } from '../hooks/useMagnetic.js';
+import { useParallax } from '../hooks/useParallax.js';
 
 const RESPONSE_LINES = [
   { key: '"name"', value: '"Aryan Singh"', type: 'str' },
@@ -92,6 +93,14 @@ export default function Hero() {
   const contentRef = useRef(null);
   const magneticRef = useMagnetic({ strength: 10 });
 
+  // Layered depth: background drifts slowest, glyphs drift at a mid speed
+  // each slightly different, foreground content moves fastest of all —
+  // that speed mismatch between layers is what reads as parallax.
+  const glowRef = useParallax(0.08);
+  const glyph1Ref = useParallax(0.22);
+  const glyph2Ref = useParallax(0.32);
+  const glyph3Ref = useParallax(0.26);
+
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return;
@@ -113,10 +122,10 @@ export default function Hero() {
 
   return (
     <section id="hero" className="hero">
-      <HeroGlow />
-      <span className="hero-glyph hero-glyph-1" aria-hidden="true">{'</>'}</span>
-      <span className="hero-glyph hero-glyph-2" aria-hidden="true">{'{ }'}</span>
-      <span className="hero-glyph hero-glyph-3" aria-hidden="true">{'#!/'}</span>
+      <div className="hero-glow-parallax" ref={glowRef}><HeroGlow /></div>
+      <span className="hero-glyph hero-glyph-1" ref={glyph1Ref} aria-hidden="true">{'</>'}</span>
+      <span className="hero-glyph hero-glyph-2" ref={glyph2Ref} aria-hidden="true">{'{ }'}</span>
+      <span className="hero-glyph hero-glyph-3" ref={glyph3Ref} aria-hidden="true">{'#!/'}</span>
       <div className="hero-content" ref={contentRef}>
         <div className="hero-text">
           <span className="hero-badge">

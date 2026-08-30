@@ -1,6 +1,7 @@
 import React from 'react';
 import Reveal from './Reveal.jsx';
 import { useMagnetic } from '../hooks/useMagnetic.js';
+import { useParallax } from '../hooks/useParallax.js';
 
 /* Abstract, code-native preview graphics per project — no fake screenshots,
    just a browser-chrome frame with a small illustrative motif matching
@@ -135,8 +136,11 @@ function ProjectCard({ p, delay }) {
 }
 
 export default function Projects({ projects, loading, loadError }) {
+  const blobRef = useParallax(0.15);
+
   return (
     <section id="projects" className="section">
+      <div className="section-parallax-blob projects-blob" ref={blobRef} aria-hidden="true" />
       <div className="container">
         <div className="section-header">
           <span className="section-tag">what I've built</span>

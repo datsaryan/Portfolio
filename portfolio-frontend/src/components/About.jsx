@@ -1,5 +1,6 @@
 import React from 'react';
 import Reveal from './Reveal.jsx';
+import { useParallax } from '../hooks/useParallax.js';
 
 const CARDS = [
   {
@@ -19,8 +20,11 @@ const CARDS = [
 ];
 
 export default function About() {
+  const blobRef = useParallax(0.15);
+
   return (
     <section id="about" className="section">
+      <div className="section-parallax-blob about-blob" ref={blobRef} aria-hidden="true" />
       <div className="container">
         <div className="section-header">
           <span className="section-tag">who I am</span>
