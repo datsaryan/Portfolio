@@ -273,6 +273,12 @@ button { font-family: inherit; }
 [data-theme="dark"] .hero-glow-canvas { mix-blend-mode: screen; opacity: 0.9; }
 
 /* ---- live particle-network background, sits behind the whole page ---- */
+.snowfall-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
 .particle-field-canvas {
   position: fixed;
   inset: 0;
@@ -280,6 +286,7 @@ button { font-family: inherit; }
   pointer-events: none;
   opacity: 0.55;
 }
+[data-theme="dark"] .snowfall-canvas { opacity: 0.85; }
 [data-theme="dark"] .particle-field-canvas { opacity: 0.4; mix-blend-mode: screen; }
 .hero-glyph {
   position: absolute;

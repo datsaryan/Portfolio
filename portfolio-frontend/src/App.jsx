@@ -13,6 +13,7 @@ import Experience from './components/Experience.jsx';
 import Education from './components/Education.jsx';
 import Certifications from './components/Certifications.jsx';
 // import Testimonials from './components/Testimonials.jsx';
+import Snowfall from './components/Snowfall.jsx';
 import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import BackToTop from './components/BackToTop.jsx';
@@ -55,6 +56,7 @@ export default function App() {
 
   return (
     <>
+      <Snowfall />
       <ParticleField />
       <ScrollProgress />
       <CustomCursor />
