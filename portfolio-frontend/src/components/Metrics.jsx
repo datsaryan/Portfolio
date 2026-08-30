@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Reveal from './Reveal.jsx';
 
 const METRICS = [
   { value: 7.8, suffix: '', decimals: 1, label: 'CGPA / 10' },
@@ -55,14 +56,16 @@ export default function Metrics() {
   return (
     <section className="metrics-bar">
       <div className="container">
-        <div className="metrics-grid">
-          {METRICS.map((m) => (
-            <div className="metric-item" key={m.label}>
-              <Counter value={m.value} suffix={m.suffix} decimals={m.decimals} />
-              <div className="metric-label">{m.label}</div>
-            </div>
-          ))}
-        </div>
+        <Reveal>
+          <div className="metrics-grid">
+            {METRICS.map((m) => (
+              <div className="metric-item" key={m.label}>
+                <Counter value={m.value} suffix={m.suffix} decimals={m.decimals} />
+                <div className="metric-label">{m.label}</div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );

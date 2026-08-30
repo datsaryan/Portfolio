@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Reveal from './Reveal.jsx';
 
 // Maps a tool name to a Simple Icons slug + brand color, for a real recognizable
 // mark next to each chip. Falls back to a plain chip (no icon) when unmapped.
@@ -73,40 +74,46 @@ export default function Skills({ skills, loading }) {
   return (
     <section id="skills" className="section">
       <div className="container">
-        <div className="section-header">
-          <span className="section-tag">what I know</span>
-          <h2 className="section-title">My <span className="highlight">skills</span></h2>
-        </div>
+        <Reveal>
+          <div className="section-header">
+            <span className="section-tag">what I know</span>
+            <h2 className="section-title">My <span className="highlight">skills</span></h2>
+          </div>
+        </Reveal>
 
         {loading ? (
           <p className="github-loading">Loading skills…</p>
         ) : (
           <div className="skills-wrapper">
-            <div className="skills-column">
-              <h3 className="skills-col-title">Technical</h3>
-              {technical.map((s) => (
-                <SkillBar key={s.id} skill={s} />
-              ))}
-            </div>
-
-            <div className="skills-column">
-              <h3 className="skills-col-title">Soft skills</h3>
-              <div className="soft-skills-grid">
-                {soft.map((s) => (
-                  <div key={s.id} className="soft-card">{s.name}</div>
+            <Reveal>
+              <div className="skills-column">
+                <h3 className="skills-col-title">Technical</h3>
+                {technical.map((s) => (
+                  <SkillBar key={s.id} skill={s} />
                 ))}
               </div>
+            </Reveal>
 
-              <h3 className="skills-col-title" style={{ marginTop: '2.2rem' }}>Tools &amp; platforms</h3>
-              <div className="tools-grid">
-                {tools.map((s) => (
-                  <div key={s.id} className="tool-chip">
-                    <ToolIcon name={s.name} />
-                    {s.name}
-                  </div>
-                ))}
+            <Reveal delay={0.1}>
+              <div className="skills-column">
+                <h3 className="skills-col-title">Soft skills</h3>
+                <div className="soft-skills-grid">
+                  {soft.map((s) => (
+                    <div key={s.id} className="soft-card">{s.name}</div>
+                  ))}
+                </div>
+
+                <h3 className="skills-col-title" style={{ marginTop: '2.2rem' }}>Tools &amp; platforms</h3>
+                <div className="tools-grid">
+                  {tools.map((s) => (
+                    <div key={s.id} className="tool-chip">
+                      <ToolIcon name={s.name} />
+                      {s.name}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         )}
       </div>

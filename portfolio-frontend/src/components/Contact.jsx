@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../api.js';
+import Reveal from './Reveal.jsx';
 
 const EMPTY = { name: '', email: '', subject: '', message: '' };
 
@@ -32,13 +33,16 @@ export default function Contact() {
   return (
     <section id="contact" className="section">
       <div className="container">
-        <div className="section-header">
-          <span className="section-tag">get in touch</span>
-          <h2 className="section-title">Contact <span className="highlight">me</span></h2>
-          <p className="section-sub">Have an opportunity? Let's connect and build something together.</p>
-        </div>
+        <Reveal>
+          <div className="section-header">
+            <span className="section-tag">get in touch</span>
+            <h2 className="section-title">Contact <span className="highlight">me</span></h2>
+            <p className="section-sub">Have an opportunity? Let's connect and build something together.</p>
+          </div>
+        </Reveal>
 
         <div className="contact-wrapper">
+          <Reveal>
           <div className="contact-info">
             <h3>Let's talk</h3>
             <p>I'm currently open to internship opportunities, collaborative projects, and learning experiences. Feel free to reach out.</p>
@@ -67,7 +71,9 @@ export default function Contact() {
               </a>
             </div>
           </div>
+          </Reveal>
 
+          <Reveal delay={0.1}>
           <div className="contact-form-wrap">
             <form className="contact-form" onSubmit={onSubmit}>
               <div className="form-row">
@@ -100,6 +106,7 @@ export default function Contact() {
               </button>
             </form>
           </div>
+          </Reveal>
         </div>
       </div>
     </section>
