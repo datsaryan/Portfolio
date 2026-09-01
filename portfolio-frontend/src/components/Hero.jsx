@@ -91,6 +91,7 @@ function JsonTypewriter() {
 
 export default function Hero() {
   const contentRef = useRef(null);
+  const sectionRef = useRef(null);
   const magneticRef = useMagnetic({ strength: 10 });
 
   // Layered depth: background drifts slowest, glyphs drift at a mid speed
@@ -104,24 +105,46 @@ export default function Hero() {
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return;
+
+    // Fade distance scales with the section's own height (with a sane
+    // floor) instead of a fixed px value, so it doesn't fade out before
+    // the user has scrolled past the content on tall mobile layouts.
+    let fadeDistance = 700;
+    const measure = () => {
+      const h = sectionRef.current?.offsetHeight || window.innerHeight;
+      fadeDistance = Math.max(h * 0.9, 400);
+    };
+    measure();
+
     let raf;
     const onScroll = () => {
       if (raf) return;
       raf = requestAnimationFrame(() => {
         const y = window.scrollY;
-        if (contentRef.current && y < window.innerHeight) {
+        if (contentRef.current && y < fadeDistance) {
           contentRef.current.style.transform = `translateY(${y * 0.12}px)`;
-          contentRef.current.style.opacity = String(Math.max(1 - y / 700, 0));
+          contentRef.current.style.opacity = String(Math.max(1 - y / fadeDistance, 0));
+        } else if (contentRef.current) {
+          contentRef.current.style.opacity = '0';
         }
         raf = null;
       });
     };
+
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener('resize', measure);
+    // Mobile address-bar collapse/expand fires here, not always 'resize'
+    window.visualViewport?.addEventListener('resize', measure);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', measure);
+      window.visualViewport?.removeEventListener('resize', measure);
+    };
   }, []);
 
   return (
-    <section id="hero" className="hero">
+    <section id="hero" className="hero" ref={sectionRef}>
       <div className="hero-glow-parallax" ref={glowRef}><HeroGlow /></div>
       <span className="hero-glyph hero-glyph-1" ref={glyph1Ref} aria-hidden="true">{'</>'}</span>
       <span className="hero-glyph hero-glyph-2" ref={glyph2Ref} aria-hidden="true">{'{ }'}</span>
