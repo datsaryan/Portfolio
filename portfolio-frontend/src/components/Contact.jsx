@@ -35,66 +35,75 @@ export default function Contact() {
       <div className="container">
         <Reveal>
           <div className="section-header">
-            <span className="section-tag">get in touch</span>
-            <h2 className="section-title">Contact <span className="highlight">me</span></h2>
-            <p className="section-sub">Have an opportunity? Let's connect and build something together.</p>
+            <span className="section-tag">say hi</span>
+            <h2 className="section-title">Let's <span className="highlight">chat</span></h2>
+            <p className="section-sub">Got something cool in mind? A role, a project, or just want to nerd out about code — I'm in.</p>
           </div>
         </Reveal>
 
         <div className="contact-wrapper">
           <Reveal>
           <div className="contact-info">
-            <h3>Let's talk</h3>
-            <p>I'm currently open to internship opportunities, collaborative projects, and learning experiences. Feel free to reach out.</p>
+            <h3>Drop me a line</h3>
+            <p>Open to internships, side projects, or just a good "hey, want to build something?" message. No formal intro required — I usually reply pretty fast.</p>
 
-            <div className="contact-items">
-              <a href="mailto:aryansobdh@gmail.com" className="contact-item">
-                <span className="ci-icon">@</span>
-                <div className="ci-text">
-                  <span className="ci-label">Email</span>
-                  <span className="ci-value">aryansobdh@gmail.com</span>
-                </div>
-              </a>
-              <a href="tel:+918602879043" className="contact-item">
-                <span className="ci-icon">#</span>
-                <div className="ci-text">
-                  <span className="ci-label">Phone</span>
-                  <span className="ci-value">+91 8602879043</span>
-                </div>
-              </a>
-              <a href="https://github.com/datsaryan" target="_blank" rel="noreferrer" className="contact-item">
-                <span className="ci-icon">gh</span>
-                <div className="ci-text">
-                  <span className="ci-label">GitHub</span>
-                  <span className="ci-value">github.com/datsaryan</span>
-                </div>
-              </a>
+            <div className="hero-console contact-console">
+              <div className="console-titlebar">
+                <span className="console-dot red" />
+                <span className="console-dot yellow" />
+                <span className="console-dot green" />
+                <span className="console-path">contact.json</span>
+              </div>
+              <div className="console-body">
+                <span className="console-req">GET /api/contact</span>
+                <span className="json-punc">{'{'}</span>
+                <a href="mailto:aryansobdh@gmail.com" className="console-field">
+                  <span className="json-key">"email"</span><span className="json-punc">: </span>
+                  <span className="json-str">"aryansobdh@gmail.com"</span><span className="json-punc">,</span>
+                </a>
+                <a href="tel:+918602879043" className="console-field">
+                  <span className="json-key">"phone"</span><span className="json-punc">: </span>
+                  <span className="json-str">"+91 8602879043"</span><span className="json-punc">,</span>
+                </a>
+                <a href="https://github.com/datsaryan" target="_blank" rel="noreferrer" className="console-field">
+                  <span className="json-key">"github"</span><span className="json-punc">: </span>
+                  <span className="json-str">"github.com/datsaryan"</span>
+                </a>
+                <span className="json-punc">{'}'}</span>
+                <span className="console-cursor" />
+              </div>
             </div>
           </div>
           </Reveal>
 
           <Reveal delay={0.1}>
-          <div className="contact-form-wrap">
-            <form className="contact-form" onSubmit={onSubmit}>
+          <div className="contact-form-wrap hero-console">
+            <div className="console-titlebar">
+              <span className="console-dot red" />
+              <span className="console-dot yellow" />
+              <span className="console-dot green" />
+              <span className="console-path">message.json</span>
+            </div>
+            <form className="contact-form console-form" onSubmit={onSubmit}>
               <div className="form-row">
                 <div className="form-group">
-                  <label htmlFor="name">Your name</label>
+                  <label htmlFor="name">name</label>
                   <input id="name" name="name" type="text" placeholder="John Doe"
                          value={form.name} onChange={onChange} required />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="email">Your email</label>
+                  <label htmlFor="email">email</label>
                   <input id="email" name="email" type="email" placeholder="john@example.com"
                          value={form.email} onChange={onChange} required />
                 </div>
               </div>
               <div className="form-group">
-                <label htmlFor="subject">Subject</label>
+                <label htmlFor="subject">subject</label>
                 <input id="subject" name="subject" type="text" placeholder="Internship opportunity / collaboration"
                        value={form.subject} onChange={onChange} />
               </div>
               <div className="form-group">
-                <label htmlFor="message">Message</label>
+                <label htmlFor="message">message</label>
                 <textarea id="message" name="message" rows="5" placeholder="Hi Aryan, I'd love to connect about..."
                           value={form.message} onChange={onChange} required />
               </div>
@@ -102,7 +111,7 @@ export default function Contact() {
               {status && <p className={`form-status ${status.type}`}>{status.text}</p>}
 
               <button type="submit" className="btn btn-primary btn-full" disabled={submitting}>
-                {submitting ? 'Sending…' : 'Send message'}
+                {submitting ? 'Sending…' : 'Send it over 🚀'}
               </button>
             </form>
           </div>

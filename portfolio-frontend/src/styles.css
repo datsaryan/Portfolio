@@ -885,28 +885,26 @@ button { font-family: inherit; }
 .contact-wrapper { display: grid; grid-template-columns: 1fr 1.3fr; gap: 3.5rem; align-items: start; }
 .contact-info h3 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; margin-bottom: 0.7rem; }
 .contact-info > p { color: var(--ink-soft); font-size: 0.94rem; margin-bottom: 1.8rem; }
-.contact-items { display: flex; flex-direction: column; gap: 0.7rem; }
-.contact-item {
-  display: flex; align-items: center; gap: 0.9rem;
-  padding: 0.9rem 1.1rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  transition: border-color 0.2s, transform 0.2s;
-}
-.contact-item:hover { border-color: var(--accent); transform: translateX(4px); }
-.ci-icon { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent); width: 1.4rem; }
-.ci-label { display: block; font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-mute); text-transform: uppercase; }
-.ci-value { font-size: 0.9rem; color: var(--ink); font-weight: 500; }
 
-.contact-form-wrap {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 2rem;
+.contact-console .console-body { min-height: 0; padding: 1.5rem; }
+.console-field {
+  display: block;
+  margin-left: 1.1rem;
+  padding: 0.15rem 0.4rem;
+  margin-inline: -0.4rem;
+  border-radius: 4px;
+  transition: background 0.15s, transform 0.15s;
 }
+.console-field:hover { background: var(--surface-2); transform: translateX(3px); }
+
+.contact-form-wrap { padding: 0; }
+.contact-form-wrap .console-form { padding: 1.6rem 1.5rem 1.8rem; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .form-group { margin-bottom: 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
-.form-group label { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+.form-group label {
+  font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600; color: var(--ink-mute);
+}
+.form-group label::before { content: '// '; color: var(--ink-mute); }
 .form-group input, .form-group textarea {
   padding: 0.75rem 1rem;
   border: 1px solid var(--border);
@@ -915,11 +913,11 @@ button { font-family: inherit; }
   font-size: 0.92rem;
   color: var(--ink);
   background: var(--bg);
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
   resize: vertical;
   outline: none;
 }
-.form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+.form-group input:focus, .form-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 .form-group input::placeholder, .form-group textarea::placeholder { color: var(--ink-mute); }
 .form-status { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.9rem; min-height: 1.1em; }
 .form-status.success { color: var(--teal); }
