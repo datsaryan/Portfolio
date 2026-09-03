@@ -105,6 +105,28 @@ button { font-family: inherit; }
   bottom: -12%; right: -8%;
   background: radial-gradient(circle, var(--teal) 0%, transparent 70%);
 }
+
+/* Scroll-driven ambient wash, shared by any section using useColorWash()
+   (currently #projects and #certifications) — --wash-color is registered
+   as an animatable color so switching the var actually eases between
+   hues instead of snapping (Chrome/Edge/Firefox/Safari 17+; older
+   browsers just get an instant swap, no layout impact either way). */
+@property --wash-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #2451B6;
+}
+.scroll-color-wash {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.16;
+  background: radial-gradient(ellipse 60% 55% at 50% 30%, var(--wash-color) 0%, transparent 72%);
+  transition: --wash-color 0.8s ease;
+}
+[data-theme="dark"] .scroll-color-wash { opacity: 0.24; }
+
 @media (max-width: 640px) {
   .section-parallax-blob { display: none; }
 }
@@ -1143,6 +1165,31 @@ body.cursor-active .cursor-ring {
   background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 body.cursor-active .cursor-dot { opacity: 0; }
+
+body.cursor-label-active .cursor-ring {
+  width: 92px;
+  height: 92px;
+  margin: -46px 0 0 -46px;
+  opacity: 1;
+  background: var(--accent);
+  border-color: transparent;
+}
+body.cursor-label-active .cursor-dot { opacity: 0; }
+.cursor-ring-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: var(--accent-ink);
+  opacity: 0;
+  transition: opacity 0.2s ease 0.08s;
+}
+body.cursor-label-active .cursor-ring-label { opacity: 1; }
 
 @media (pointer: coarse) {
   .cursor-dot, .cursor-ring { display: none; }

@@ -2,6 +2,7 @@ import React from 'react';
 import Reveal from './Reveal.jsx';
 import { useMagnetic } from '../hooks/useMagnetic.js';
 import { useParallax } from '../hooks/useParallax.js';
+import { useColorWash, WASH_COLORS } from '../hooks/useColorWash.js';
 
 /* Abstract, code-native preview graphics per project — no fake screenshots,
    just a browser-chrome frame with a small illustrative motif matching
@@ -87,11 +88,16 @@ function ProjectPreview({ title }) {
   );
 }
 
-function ProjectCard({ p, delay }) {
+function ProjectCard({ p, delay, washColor }) {
   const tiltRef = useMagnetic({ strength: 6, tilt: true });
   return (
     <Reveal delay={delay}>
-      <div className="project-card project-card-tilt" ref={tiltRef}>
+      <div
+        className="project-card project-card-tilt"
+        ref={tiltRef}
+        data-cursor-label="VIEW"
+        data-wash-color={washColor}
+      >
         <ProjectPreview title={p.title} />
         <div className="project-header">
           <span className="project-icon">{'{ }'}</span>
@@ -137,9 +143,11 @@ function ProjectCard({ p, delay }) {
 
 export default function Projects({ projects, loading, loadError }) {
   const blobRef = useParallax(0.15);
+  const { gridRef, washRef } = useColorWash([projects]);
 
   return (
     <section id="projects" className="section">
+      <div className="scroll-color-wash" ref={washRef} aria-hidden="true" />
       <div className="section-parallax-blob projects-blob" ref={blobRef} aria-hidden="true" />
       <div className="container">
         <div className="section-header">
@@ -154,9 +162,9 @@ export default function Projects({ projects, loading, loadError }) {
           </p>
         )}
 
-        <div className="projects-grid">
+        <div className="projects-grid" ref={gridRef}>
           {projects.map((p, i) => (
-            <ProjectCard key={p.id} p={p} delay={(i % 3) * 0.08} />
+            <ProjectCard key={p.id} p={p} delay={(i % 3) * 0.08} washColor={WASH_COLORS[i % WASH_COLORS.length]} />
           ))}
         </div>
       </div>
