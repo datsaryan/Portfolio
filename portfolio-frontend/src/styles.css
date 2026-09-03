@@ -808,6 +808,15 @@ button { font-family: inherit; }
 .tl-content p { color: var(--ink-soft); font-size: 0.92rem; margin-bottom: 0.6rem; }
 .tl-points { padding-left: 1.1rem; }
 .tl-points li { color: var(--ink-soft); font-size: 0.88rem; list-style: disc; margin-bottom: 0.2rem; }
+.tl-link {
+  display: inline-block;
+  margin-top: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--accent);
+  transition: transform 0.15s;
+}
+.tl-link:hover { transform: translateX(3px); }
 
 /* ============================================================
    EDUCATION

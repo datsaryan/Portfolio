@@ -3,6 +3,18 @@ import Reveal from './Reveal.jsx';
 
 const TIMELINE = [
   {
+    tagLabel: 'internship', title: 'Web Development Intern — InAmigos', date: 'Apr 2026 – May 2026',
+    body: `Worked as an AI Web Development Intern at InAmigos, building a series of task-based
+    frontend projects with HTML, CSS, and JavaScript — each task documented and shipped
+    to a public repo as the internship progressed.`,
+    points: [
+      'Built responsive web pages from scratch across multiple task-based projects',
+      'Implemented semantic HTML5 structure and modern CSS3 (Flexbox, Grid)',
+      'Collaborated using Git and GitHub for version control and task delivery',
+    ],
+    link: { url: 'https://github.com/datsaryan/InAmigos-Projects', label: 'View internship repo →' },
+  },
+  {
     tagLabel: 'workshop', title: 'AI & Machine Learning Workshop', date: 'Feb 2026',
     body: `Participated in hands-on workshops focused on practical implementation of
     Artificial Intelligence and Machine Learning concepts, including model building,
@@ -48,6 +60,11 @@ export default function Experience() {
                   <ul className="tl-points">
                     {item.points.map((pt) => <li key={pt}>{pt}</li>)}
                   </ul>
+                  {item.link && (
+                    <a href={item.link.url} target="_blank" rel="noreferrer" className="tl-link">
+                      {item.link.label}
+                    </a>
+                  )}
                 </div>
               </div>
             </Reveal>
