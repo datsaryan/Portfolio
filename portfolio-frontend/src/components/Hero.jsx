@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import HeroGlow from './HeroGlow.jsx';
 import { useMagnetic } from '../hooks/useMagnetic.js';
 import { useParallax } from '../hooks/useParallax.js';
+import { subscribeScroll } from '../hooks/scrollBus.js';
 
 const RESPONSE_LINES = [
   { key: '"name"', value: '"Aryan Singh"', type: 'str' },
@@ -109,37 +110,26 @@ export default function Hero() {
     // Fade distance scales with the section's own height (with a sane
     // floor) instead of a fixed px value, so it doesn't fade out before
     // the user has scrolled past the content on tall mobile layouts.
-    let fadeDistance = 700;
-    const measure = () => {
+    // Recomputed every tick (cheap) so it stays correct across resizes
+    // and mobile address-bar collapse/expand without a dedicated listener.
+    const update = () => {
       const h = sectionRef.current?.offsetHeight || window.innerHeight;
-      fadeDistance = Math.max(h * 0.9, 400);
-    };
-    measure();
-
-    let raf;
-    const onScroll = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        const y = window.scrollY;
-        if (contentRef.current && y < fadeDistance) {
-          contentRef.current.style.transform = `translateY(${y * 0.12}px)`;
-          contentRef.current.style.opacity = String(Math.max(1 - y / fadeDistance, 0));
-        } else if (contentRef.current) {
-          contentRef.current.style.opacity = '0';
-        }
-        raf = null;
-      });
+      const fadeDistance = Math.max(h * 0.9, 400);
+      const y = window.scrollY;
+      if (contentRef.current && y < fadeDistance) {
+        contentRef.current.style.transform = `translateY(${y * 0.12}px)`;
+        contentRef.current.style.opacity = String(Math.max(1 - y / fadeDistance, 0));
+      } else if (contentRef.current) {
+        contentRef.current.style.opacity = '0';
+      }
     };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', measure);
-    // Mobile address-bar collapse/expand fires here, not always 'resize'
-    window.visualViewport?.addEventListener('resize', measure);
+    window.visualViewport?.addEventListener('resize', update);
+    const unsubscribe = subscribeScroll(update);
 
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', measure);
-      window.visualViewport?.removeEventListener('resize', measure);
+      window.visualViewport?.removeEventListener('resize', update);
+      unsubscribe();
     };
   }, []);
 

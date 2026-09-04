@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { subscribeScroll } from './scrollBus.js';
 
 /**
  * Moves the ref'd element vertically as it travels through the viewport,
@@ -12,6 +13,9 @@ import { useEffect, useRef } from 'react';
  * speed 1    -> moves at full scroll speed
  *
  * Respects prefers-reduced-motion by leaving the element static.
+ * Updates run on the shared scroll bus (see scrollBus.js) — one
+ * listener/rAF loop shared across every parallax element on the page,
+ * rather than each instance running its own.
  */
 export function useParallax(speed = 0.2) {
   const ref = useRef(null);
@@ -23,26 +27,14 @@ export function useParallax(speed = 0.2) {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion || speed === 0) return undefined;
 
-    let raf;
     const update = () => {
       const rect = el.getBoundingClientRect();
       // Offset of the element's center from the viewport's center.
       const centerOffset = rect.top + rect.height / 2 - window.innerHeight / 2;
       el.style.transform = `translateY(${centerOffset * -speed}px)`;
-      raf = null;
-    };
-    const onScroll = () => {
-      if (raf == null) raf = requestAnimationFrame(update);
     };
 
-    update();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
+    return subscribeScroll(update);
   }, [speed]);
 
   return ref;

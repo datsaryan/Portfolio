@@ -59,7 +59,7 @@
 
 /* ---- Reset & base ---- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: auto; } /* Lenis (see useLenis.js) now owns scroll easing, including anchor links */
 body {
   font-family: var(--font-body);
   color: var(--ink);
@@ -91,6 +91,7 @@ button { font-family: inherit; }
   filter: blur(60px);
   pointer-events: none;
   opacity: 0.35;
+  will-change: transform;
 }
 [data-theme="dark"] .section-parallax-blob { opacity: 0.22; }
 .section > .container { position: relative; z-index: 1; }
@@ -284,6 +285,7 @@ button { font-family: inherit; }
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  will-change: transform;
 }
 .hero-glow-canvas {
   position: absolute;
@@ -319,6 +321,7 @@ button { font-family: inherit; }
   pointer-events: none;
   user-select: none;
   z-index: 0;
+  will-change: transform;
 }
 .hero-glyph-1 { top: 10%; left: 4%; font-size: 2.4rem; transform: rotate(-8deg); }
 .hero-glyph-2 { bottom: 8%; left: 8%; font-size: 1.6rem; transform: rotate(6deg); }
@@ -331,6 +334,7 @@ button { font-family: inherit; }
   grid-template-columns: 1.1fr 1fr;
   gap: 4rem;
   align-items: center;
+  will-change: transform, opacity;
 }
 .hero-text { max-width: 560px; }
 
@@ -1117,9 +1121,12 @@ body.menu-open { overflow: hidden; }
 }
 .scroll-progress-bar {
   height: 100%;
-  width: 0%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
   background: linear-gradient(90deg, var(--accent), var(--teal));
   box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 60%, transparent);
+  will-change: transform;
 }
 
 /* ============================================================

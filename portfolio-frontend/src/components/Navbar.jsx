@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ThemeToggle from './ThemeToggle.jsx';
+import { subscribeScroll } from '../hooks/scrollBus.js';
 
 const LINKS = [
   ['#hero', 'Home'],
@@ -17,9 +18,8 @@ export default function Navbar() {
   const [active, setActive] = useState('hero');
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const update = () => setScrolled(window.scrollY > 30);
+    return subscribeScroll(update);
   }, []);
 
   useEffect(() => {

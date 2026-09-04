@@ -1,30 +1,19 @@
 import React, { useEffect, useRef } from 'react';
+import { subscribeScroll } from '../hooks/scrollBus.js';
 
 /** Thin accent-colored bar pinned to the very top, filling as the page scrolls. */
 export default function ScrollProgress() {
   const barRef = useRef(null);
 
   useEffect(() => {
-    let raf;
     const update = () => {
       const doc = document.documentElement;
       const scrollTop = doc.scrollTop || document.body.scrollTop;
       const height = doc.scrollHeight - doc.clientHeight;
-      const pct = height > 0 ? (scrollTop / height) * 100 : 0;
-      if (barRef.current) barRef.current.style.width = `${pct}%`;
-      raf = null;
+      const pct = height > 0 ? scrollTop / height : 0;
+      if (barRef.current) barRef.current.style.transform = `scaleX(${pct})`;
     };
-    const onScroll = () => {
-      if (raf == null) raf = requestAnimationFrame(update);
-    };
-    update();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
+    return subscribeScroll(update);
   }, []);
 
   return (
