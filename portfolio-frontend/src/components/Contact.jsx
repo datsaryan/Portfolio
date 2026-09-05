@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { api } from '../api.js';
 import Reveal from './Reveal.jsx';
 
@@ -8,6 +8,28 @@ export default function Contact() {
   const [form, setForm] = useState(EMPTY);
   const [status, setStatus] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const wrapRef = useRef(null);
+  const [split, setSplit] = useState(false);
+
+  // The two console cards start overlapped at dead center (see CSS) and
+  // animate apart into their final grid positions whenever this section
+  // is in view, and back together when it scrolls out of view — so
+  // scrolling back up replays the "merge" in reverse.
+  useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      setSplit(true);
+      return undefined;
+    }
+    const el = wrapRef.current;
+    if (!el) return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => setSplit(entry.isIntersecting),
+      { threshold: 0.35 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const onChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
@@ -41,8 +63,9 @@ export default function Contact() {
           </div>
         </Reveal>
 
-        <div className="contact-wrapper">
-          <Reveal>
+        <div className={`contact-wrapper${split ? ' is-split' : ''}`} ref={wrapRef}>
+          <span className="contact-split-flash" aria-hidden="true" />
+
           <div className="contact-info">
             <h3>Drop me a line</h3>
             <p>Open to internships, side projects, or just a good "hey, want to build something?" message. No formal intro required — I usually reply pretty fast.</p>
@@ -74,9 +97,7 @@ export default function Contact() {
               </div>
             </div>
           </div>
-          </Reveal>
 
-          <Reveal delay={0.1}>
           <div className="contact-form-wrap hero-console">
             <div className="console-titlebar">
               <span className="console-dot red" />
@@ -115,7 +136,6 @@ export default function Contact() {
               </button>
             </form>
           </div>
-          </Reveal>
         </div>
       </div>
     </section>

@@ -1,5 +1,4 @@
-import React from 'react';
-import Reveal from './Reveal.jsx';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParallax } from '../hooks/useParallax.js';
 
 const CARDS = [
@@ -21,6 +20,29 @@ const CARDS = [
 
 export default function About() {
   const blobRef = useParallax(0.15);
+  const layoutRef = useRef(null);
+  const [split, setSplit] = useState(false);
+
+  // Same "emerge from each other" idea as Contact — photo frame and card
+  // grid start overlapped at center and ease apart into their layout
+  // positions in view, back together out of view — just a slower, gentler
+  // curve here (longer duration, softer easing, a blur-in instead of a
+  // flash) since this section reads calmer than Contact's punchier reveal.
+  useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) {
+      setSplit(true);
+      return undefined;
+    }
+    const el = layoutRef.current;
+    if (!el) return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => setSplit(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section id="about" className="section">
@@ -31,33 +53,28 @@ export default function About() {
           <h2 className="section-title">About <span className="highlight">me</span></h2>
         </div>
 
-        <div className="about-layout">
-          <Reveal>
-            <div className="about-photo-frame">
-              <div className="photo-titlebar">
-                <span className="console-dot red" />
-                <span className="console-dot yellow" />
-                <span className="console-dot green" />
-                <span className="console-path">headshot.jpg</span>
-              </div>
-              <div className="about-photo-wrap">
-                <img src="/profile-headshot.jpg" alt="Aryan Singh" className="about-photo" />
-              </div>
+        <div className={`about-layout${split ? ' is-split' : ''}`} ref={layoutRef}>
+          <div className="about-photo-frame">
+            <div className="photo-titlebar">
+              <span className="console-dot red" />
+              <span className="console-dot yellow" />
+              <span className="console-dot green" />
+              <span className="console-path">headshot.jpg</span>
             </div>
-          </Reveal>
+            <div className="about-photo-wrap">
+              <img src="/profile-headshot.jpg" alt="Aryan Singh" className="about-photo" />
+            </div>
+          </div>
 
           <div className="about-grid">
-        {CARDS.map((c, i) => (
-            <Reveal key={c.title} delay={i * 0.08}>
-              <div className="about-card">
+            {CARDS.map((c) => (
+              <div className="about-card" key={c.title}>
                 <span className="card-label">{c.label}</span>
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
               </div>
-            </Reveal>
-          ))}
+            ))}
 
-          <Reveal delay={0.16}>
             <div className="about-card">
               <span className="card-label">education</span>
               <h3>B.Tech, Computer Science Engineering</h3>
@@ -66,9 +83,7 @@ export default function About() {
                 Current CGPA: 7.8 / 10.
               </p>
             </div>
-          </Reveal>
 
-          <Reveal delay={0.24}>
             <div className="about-card">
               <span className="card-label">strengths</span>
               <h3>How I work</h3>
@@ -81,7 +96,6 @@ export default function About() {
                 <li>Adaptability</li>
               </ul>
             </div>
-          </Reveal>
           </div>
         </div>
       </div>
