@@ -94,13 +94,19 @@ export default function ParticleField() {
         ctx.fill();
       });
 
-      if (!reduceMotion) raf = requestAnimationFrame(step);
+      if (!reduceMotion && !document.hidden) raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);
     if (reduceMotion) step();
 
+    const onVisibilityChange = () => {
+      if (!document.hidden && !reduceMotion && raf == null) raf = requestAnimationFrame(step);
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     return () => {
       window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);

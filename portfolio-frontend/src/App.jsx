@@ -20,7 +20,6 @@ import Footer from './components/Footer.jsx';
 import BackToTop from './components/BackToTop.jsx';
 import CustomCursor from './components/CustomCursor.jsx';
 import ScrollProgress from './components/ScrollProgress.jsx';
-import ParticleField from './components/ParticleField.jsx';
 import { useSoundEffects } from './hooks/useSoundEffects.js';
 
 export default function App() {
@@ -65,7 +64,6 @@ export default function App() {
   return (
     <>
       <Snowfall />
-      <ParticleField />
       <ScrollProgress />
       <CustomCursor />
       <Navbar />

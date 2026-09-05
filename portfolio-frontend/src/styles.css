@@ -303,15 +303,7 @@ button { font-family: inherit; }
   z-index: 9999;
   pointer-events: none;
 }
-.particle-field-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.55;
-}
 [data-theme="dark"] .snowfall-canvas { opacity: 0.85; }
-[data-theme="dark"] .particle-field-canvas { opacity: 0.4; mix-blend-mode: screen; }
 .hero-glyph {
   position: absolute;
   color: var(--accent);

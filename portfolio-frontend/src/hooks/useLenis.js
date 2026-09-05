@@ -32,12 +32,18 @@ export function useLenis() {
     let raf;
     const loop = (time) => {
       lenis.raf(time);
-      raf = requestAnimationFrame(loop);
+      if (!document.hidden) raf = requestAnimationFrame(loop);
     };
     raf = requestAnimationFrame(loop);
 
+    const onVisibilityChange = () => {
+      if (!document.hidden && raf == null) raf = requestAnimationFrame(loop);
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     return () => {
       cancelAnimationFrame(raf);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       lenis.destroy();
       lenisInstance = null;
     };

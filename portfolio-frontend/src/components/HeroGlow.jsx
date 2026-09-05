@@ -41,6 +41,7 @@ export default function HeroGlow() {
     ];
 
     let raf;
+    let running = true;
     const draw = (t) => {
       ctx.clearRect(0, 0, width, height);
       blobs.forEach((b) => {
@@ -54,13 +55,41 @@ export default function HeroGlow() {
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, width, height);
       });
-      if (!reduceMotion) raf = requestAnimationFrame(draw);
+      if (!reduceMotion && running) raf = requestAnimationFrame(draw);
     };
     raf = requestAnimationFrame(draw);
     if (reduceMotion) draw(0);
 
+    // Nothing to gain by animating this once the hero has scrolled out of
+    // view, or while the tab is backgrounded — pause in both cases and
+    // resume exactly where the animation naturally continues.
+    const resume = () => {
+      if (!reduceMotion && running && raf == null) raf = requestAnimationFrame(draw);
+    };
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        if (raf) cancelAnimationFrame(raf);
+        raf = null;
+      } else {
+        resume();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    const io = new IntersectionObserver(([entry]) => {
+      running = entry.isIntersecting;
+      if (running) resume();
+      else if (raf) {
+        cancelAnimationFrame(raf);
+        raf = null;
+      }
+    });
+    io.observe(canvas);
+
     return () => {
       window.removeEventListener('resize', resize);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      io.disconnect();
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);

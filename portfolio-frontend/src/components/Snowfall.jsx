@@ -117,14 +117,22 @@ export default function Snowfall() {
       });
       ctx.shadowBlur = 0;
 
-      if (!reduceMotion) raf = requestAnimationFrame(step);
+      // Don't keep scheduling frames while the tab is backgrounded —
+      // there's nothing to see, just wasted CPU/GPU work.
+      if (!reduceMotion && !document.hidden) raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);
     if (reduceMotion) step(); // draw a single static frame, no loop
 
+    const onVisibilityChange = () => {
+      if (!document.hidden && !reduceMotion && raf == null) raf = requestAnimationFrame(step);
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     return () => {
       window.removeEventListener('resize', resize);
       window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
