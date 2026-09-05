@@ -3,6 +3,7 @@ import Reveal from './Reveal.jsx';
 import { useMagnetic } from '../hooks/useMagnetic.js';
 import { useParallax } from '../hooks/useParallax.js';
 import { useColorWash, WASH_COLORS } from '../hooks/useColorWash.js';
+import{useEmergeCells} from '../hooks/useEmergeCells.js';
 
 /* Abstract, code-native preview graphics per project — no fake screenshots,
    just a browser-chrome frame with a small illustrative motif matching
@@ -260,6 +261,8 @@ function ProjectCard({ p, delay, washColor }) {
 export default function Projects({ projects, loading, loadError }) {
   const blobRef = useParallax(0.15);
   const { gridRef, washRef } = useColorWash([projects]);
+  useEmergeCells(gridRef, '[data-emerge-cell]', [projects]);
+  
 
   return (
     <section id="projects" className="section">
